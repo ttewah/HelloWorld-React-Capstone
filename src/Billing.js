@@ -1,28 +1,36 @@
 import "./Billing.css";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Billing = () => {
   let [billing, getBillingReport] = useState([]);
 
-  const onHandleClick = async () => {
-    let result = await axios.get("http://localhost:5150/BillingReport");
-    getBillingReport(result.data);
-    console.log(result.data);
-  };
+  useEffect(() => {
+    const fetch = async () => {
+      const result = await axios.get("http://localhost:5150/BillingReport");
+      getBillingReport(result.data);
+    };
+    fetch();
+  }, []);
 
   return (
     <div>
-      <button onClick={() => onHandleClick()}>Billing Report</button>
       <table className="table">
         <tbody>
+          <tr>
+            <th>Customer Name</th>
+            <th>Technician</th>
+            <th>Issue</th>
+            <th>Urgency</th>
+            <th>Cost</th>
+          </tr>
           {billing.map((b) => (
-            <tr key={b.customer_id}>
-              <td>Customer:{b.customer_name}</td>
-              <td>Technician:{b.tech_name}</td>
-              <td>Issue:{b.category_name}</td>
-              <td>Urgency:{b.urgency_name}</td>
-              <td>Cost:{b.cost}</td>
+            <tr key={b.customer_name}>
+              <td>{b.customer_name}</td>
+              <td>{b.tech_name}</td>
+              <td>{b.category_name}</td>
+              <td>{b.urgency_name}</td>
+              <td>{b.cost}</td>
             </tr>
           ))}
         </tbody>
