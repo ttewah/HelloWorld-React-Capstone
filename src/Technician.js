@@ -21,7 +21,7 @@ const Technician = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      const result = await axios.get("http://localhost:5150/Category");
+      const result = await axios.get("http://localhost:5150/CustomerCategory");
       getIssue(result.data);
     };
     fetch();
@@ -30,7 +30,7 @@ const Technician = () => {
   const onAccept = async () => {
     let technician = {
       tech_name: inputRef.current.value,
-      category_id: parseInt(inputRef1.current.value),
+      customer_id: parseInt(inputRef1.current.value),
     };
     let r = await axios.put(`http://localhost:5150/Technician`, technician);
     console.log(r.data);
@@ -73,8 +73,8 @@ const Technician = () => {
         >
           <option>Select Issue</option>
           {issue.map((s) => (
-            <option key={s.category_id} value={s.category_id}>
-              {s.category_name}{" "}
+            <option key={s.customer_name} value={s.customer_id}>
+              {s.customer_name}-{s.category_name}{" "}
             </option>
           ))}
         </select>{" "}
